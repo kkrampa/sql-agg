@@ -1,5 +1,7 @@
+from __future__ import absolute_import
+import six
 from sqlalchemy import func, distinct, case, text
-from queries import MedianQueryMeta
+from .queries import MedianQueryMeta
 from .base import BaseColumn, CustomQueryColumn, SqlColumn
 
 
@@ -110,7 +112,7 @@ class ConditionalColumn(SqlColumn):
         else:
             whens = {}
             for when, then in self.whens.items():
-                if isinstance(then, basestring):
+                if isinstance(then, six.string_types):
                     whens[text(when)] = text(then)
                 else:
                     whens[text(when)] = then

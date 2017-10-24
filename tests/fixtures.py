@@ -1,7 +1,8 @@
+from __future__ import absolute_import
 import factory
 import datetime
 
-from .models import UserTable, RegionTable, Session
+from tests.models import UserTable, RegionTable, Session
 
 
 class UserFactory(factory.alchemy.SQLAlchemyModelFactory):

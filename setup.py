@@ -16,7 +16,6 @@ setup(
         'SQLAlchemy>=1.0.9',
     ],
     tests_require=[
-        'unittest2==0.5.1',
         'nose',
         'psycopg2',
         'factory_boy'

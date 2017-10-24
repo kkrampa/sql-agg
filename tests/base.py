@@ -1,6 +1,7 @@
-from unittest2.case import TestCase
+from __future__ import absolute_import
+from unittest import TestCase
 
-from .fixtures import Session, UserFactory, RegionFactory
+from tests.fixtures import Session, UserFactory, RegionFactory
 
 
 class BaseTest(TestCase):

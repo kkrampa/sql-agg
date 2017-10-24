@@ -1,67 +1,39 @@
-from fixture import DataSet
+import factory
 import datetime
 
-
-class UserData(DataSet):
-    class r1:
-        user = "user1"
-        date = datetime.date(2013, 01, 01)
-        indicator_a = 1
-        indicator_b = 1
-        indicator_c = 1
-
-    class r2:
-        user = "user1"
-        date = datetime.date(2013, 02, 01)
-        indicator_a = 3
-        indicator_b = 0
-
-    class r3:
-        user = "user2"
-        date = datetime.date(2013, 01, 01)
-        indicator_a = 0
-        indicator_b = 3
-        indicator_c = 2
-
-    class r4:
-        user = "user2"
-        date = datetime.date(2013, 03, 01)
-        indicator_a = 2
-        indicator_b = 1
+from .models import UserTable, RegionTable, Session
 
 
-class RegionData(DataSet):
-    class r1:
-        region = "region1"
-        sub_region = "region1_a"
-        date = datetime.date(2013, 01, 01)
-        indicator_a = 1
-        indicator_b = 0
+class UserFactory(factory.alchemy.SQLAlchemyModelFactory):
+    class Meta:
+        model = UserTable
+        sqlalchemy_session = Session
 
-    class r2:
-        region = "region1"
-        sub_region = "region1_a"
-        date = datetime.date(2013, 02, 01)
-        indicator_a = 0
-        indicator_b = 1
+    user = factory.Iterator(['user1', 'user1', 'user2', 'user2'])
+    date = factory.Iterator([
+        datetime.date(2013, 1, 1),
+        datetime.date(2013, 2, 1),
+        datetime.date(2013, 1, 1),
+        datetime.date(2013, 3, 1)
+    ])
+    indicator_a = factory.Iterator([1, 3, 0, 2])
+    indicator_b = factory.Iterator([1, 0, 3, 1])
+    indicator_c = factory.Iterator([1, None, 2, None])
 
-    class r3:
-        region = "region1"
-        sub_region = "region1_b"
-        date = datetime.date(2013, 01, 01)
-        indicator_a = 3
-        indicator_b = 1
 
-    class r4:
-        region = "region1"
-        sub_region = "region1_b"
-        date = datetime.date(2013, 03, 01)
-        indicator_a = 1
-        indicator_b = 1
+class RegionFactory(factory.alchemy.SQLAlchemyModelFactory):
+    class Meta:
+        model = RegionTable
+        sqlalchemy_session = Session
 
-    class r5:
-        region = "region2"
-        sub_region = "region2_a"
-        date = datetime.date(2013, 01, 01)
-        indicator_a = 2
-        indicator_b = 1
+    region = factory.Iterator(['region1', 'region1', 'region1', 'region1', 'region2'])
+    sub_region = factory.Iterator(['region1_a', 'region1_a', 'region1_b', 'region1_b', 'region2_a'])
+    date = factory.Iterator([
+        datetime.date(2013, 1, 1),
+        datetime.date(2013, 2, 1),
+        datetime.date(2013, 1, 1),
+        datetime.date(2013, 3, 1),
+        datetime.date(2013, 1, 1)
+    ])
+    indicator_a = factory.Iterator([1, 0, 3, 1, 2])
+    indicator_b = factory.Iterator([0, 1, 1, 1, 1])

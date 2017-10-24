@@ -18,9 +18,8 @@ setup(
     tests_require=[
         'unittest2==0.5.1',
         'nose',
-        'SQLAlchemy-Fixtures>=0.1.5',
-        'fixture>=1.4',
-        'psycopg2'
+        'psycopg2',
+        'factory_boy'
     ],
     setup_requires=['nose']
 )

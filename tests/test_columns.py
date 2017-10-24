@@ -1,5 +1,4 @@
-from unittest2 import TestCase
-from . import BaseTest, engine
+from .base import BaseTest
 from sqlalchemy.orm import sessionmaker
 
 from sqlagg import *
@@ -8,18 +7,7 @@ from sqlagg.columns import MonthColumn, DayColumn, YearColumn, WeekColumn, Count
 Session = sessionmaker()
 
 
-class TestSqlAggViews(BaseTest, TestCase):
-    def setUp(self):
-        self.connection = engine.connect()
-        self.trans = self.connection.begin()
-        self.session = Session(bind=self.connection)
-        super(TestSqlAggViews, self).setUp()
-
-    def tearDown(self):
-        super(TestSqlAggViews, self).tearDown()
-        self.trans.commit()
-        self.session.close()
-        self.connection.close()
+class TestSqlAggViews(BaseTest):
 
     def test_missing_data(self):
         self.assertIsNone(SumColumn("not there").get_value({}))

@@ -1,6 +1,5 @@
 from unittest2 import TestCase
-from . import BaseTest
-from sqlalchemy.orm import scoped_session, sessionmaker
+from .base import BaseTest
 from datetime import date
 from sqlagg import *
 from sqlagg.columns import *
@@ -8,10 +7,6 @@ from sqlagg.filters import LT, GTE, GT, AND, EQ
 
 
 class TestSqlAgg(BaseTest, TestCase):
-    @classmethod
-    def setUpClass(cls):
-        Session = scoped_session(sessionmaker(bind=cls.metadata().bind, autoflush=True))
-        cls.session = Session()
 
     def test_single_group(self):
         data = self._get_user_data(None, None)

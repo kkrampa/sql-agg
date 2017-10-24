@@ -1,34 +1,36 @@
 import sqlalchemy
 from sqlalchemy import *
-from sqlalchemy.orm import *
 
-metadata = sqlalchemy.MetaData()
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String
+from sqlalchemy.orm.scoping import scoped_session
+from sqlalchemy.orm.session import sessionmaker
 
-user_table = Table("user_table",
-                   metadata,
-                   Column("user", String(50), primary_key=True, autoincrement=False),
-                   Column("date", DATE, primary_key=True, autoincrement=False),
-                   Column("indicator_a", INT),
-                   Column("indicator_b", INT),
-                   Column("indicator_c", INT))
+Base = declarative_base()
 
+engine = create_engine('postgresql://postgres:@localhost/sqlagg_test')
 
-class UserTable(object):
-    pass
+Session = scoped_session(sessionmaker(bind=engine))
+engine.execute(sqlalchemy.text('CREATE OR REPLACE VIEW "user_view" as SELECT * from user_table'))
 
 
-region_table = Table("region_table",
-                     metadata,
-                     Column("region", String(50), primary_key=True, autoincrement=False),
-                     Column("sub_region", String(50), primary_key=True, autoincrement=False),
-                     Column("date", DATE, primary_key=True, autoincrement=False),
-                     Column("indicator_a", INT),
-                     Column("indicator_b", INT))
+class UserTable(Base):
+    __tablename__ = 'user_table'
+
+    user = Column(String(50), primary_key=True, autoincrement=False)
+    date = Column(DATE, primary_key=True, autoincrement=False)
+    indicator_a = Column(INT)
+    indicator_b = Column(INT)
+    indicator_c = Column(INT)
 
 
-class RegionTable(object):
-    pass
+class RegionTable(Base):
+    __tablename__ = 'region_table'
 
+    region = Column(String(50), primary_key=True, autoincrement=False)
+    sub_region = Column(String(50), primary_key=True, autoincrement=False)
+    date = Column(DATE, primary_key=True, autoincrement=False)
+    indicator_a = Column(INT)
+    indicator_b = Column(INT)
 
-mapper(UserTable, user_table)
-mapper(RegionTable, region_table)
+Base.metadata.create_all(engine)
